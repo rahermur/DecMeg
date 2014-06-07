@@ -15,7 +15,7 @@ Lou = randperm(16);
 acc = zeros(1,length(Lou)); 
 
 sensores = 1:306; 
-sensores = ~ismember(sensores,[173 73 25]); 
+sensores = ~ismember(sensores,[173 50 77 97 158 111 31 293]); 
 trainsamples = 1:16; 
 
 for k = 1:length(Lou)
@@ -50,6 +50,8 @@ for k = 1:length(Lou)
         disp(sprintf('yy: %d trials',size(yy,1)));
         disp(strcat('sfreq:', num2str(sfreq)));
         features = createFeatures(XX,tmin, tmax, sfreq,tmin_original);
+        X_train = [X_train;features];
+        y_train = [y_train;yy];
     end
     %
     % Crating the testset. (Please specify the absolute path for the test data)
@@ -63,6 +65,9 @@ for k = 1:length(Lou)
         disp(strcat('Loading ',filename));
         data = load(filename);
         XX = data.X;
+        
+        XX = XX(:,sensores,:); 
+        
         yy = data.y;
         sfreq = data.sfreq;
         tmin_original = data.tmin;
@@ -83,7 +88,6 @@ for k = 1:length(Lou)
 
     %%
     X_tr= X_train*COEFF(:,1:2000);
-
     X_v = X_val*COEFF(:,1:2000);
 
 

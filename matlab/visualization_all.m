@@ -31,10 +31,7 @@ disp(['subject ',num2str(k)])
     trail = (trail - ones(size(XX,1),1)*mean(trail,1)); 
     %%
     disp('Features Normalization.');
-    coeffs = ones(1,3)/3;
-    
     for i = 1 : size(trail,2)
-        trail(:,i) = filter(coeffs, 1, trail(:,i));
         trail(:,i) = trail(:,i)-mean(trail(:,i));
         trail(:,i) = trail(:,i)./std(trail(:,i));
     end
@@ -44,12 +41,12 @@ disp(['subject ',num2str(k)])
     abs_err(sensor,:,k) = abs(faces-scramble_faces); 
 
     %%
-    figure(k)
-    plot(faces,'b')
-    hold on
-    plot(scramble_faces,'r')
-    plot(abs_err(sensor,:,k),'g')
-    hold off
+%     figure(k)
+%     plot(faces,'b')
+%     hold on
+%     plot(scramble_faces,'r')
+%     plot(abs_err(sensor,:,k),'g')
+%     hold off
 
     pruebas(sensor,1) = prueba_orden(faces-scramble_faces);
     pruebas(sensor,2) = prueba_acf(faces-scramble_faces,0);

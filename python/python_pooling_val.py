@@ -9,10 +9,17 @@ Simple prediction of the class labels of the test set by:
 from __future__ import division
 import numpy as np
 from sklearn.linear_model import LogisticRegression
+from sklearn.svm import LinearSVC
 from scipy.io import loadmat
 from sklearn.decomposition import TruncatedSVD,PCA
 from sklearn.svm import SVC
-from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.ensemble import GradientBoostingClassifier,ExtraTreesClassifier
+from sklearn.pipeline import Pipeline
+import matplotlib 
+from sklearn.lda import LDA
+from sklearn.feature_selection import f_regression,chi2 ,f_classif
+from sklearn.feature_selection import SelectKBest
+
 
 def create_features(XX, tmin, tmax, sfreq, tmin_original=-0.5):
     """Creation of the feature space:
@@ -32,7 +39,6 @@ def create_features(XX, tmin, tmax, sfreq, tmin_original=-0.5):
     print "Features Normalization."
     XX -= XX.mean(0)
     XX = np.nan_to_num(XX / XX.std(0))
-
     return XX
 
 
@@ -112,18 +118,27 @@ if __name__ == '__main__':
 #    X_train = pca.transform(X_train)
 #    Xval = pca.transform(Xval)
     
-    print
+#    print
 #    clf = SVC(C=1, kernel="linear",random_state=0) # Beware! You need 10Gb RAM to train LogisticRegression on all 16 subjects!
 #   clf = GradientBoostingClassifier(loss='deviance',learning_rate=0.1, n_estimators=10, subsample=1.0, min_samples_split=2, min_samples_leaf=1, max_depth=3, init=None, random_state=None, max_features=None, verbose=0)
-    clf = LogisticRegression(C=2,random_state=0)  
+clf = LogisticRegression(C=1,random_state=0)  
     
-    print "Classifier:"
-    print clf
-    print "Training."
-    clf.fit(X_train, y_train)
-    print "Predicting."
-    y_pred = clf.predict(Xval)
-    
-    acc = sum(y_pred==yval)/len(yval)
-    print "Accuracy: %f" % acc
+#    print "Classifier:"
+#    print clf
+#    print "Training."
+#    clf.fit(X_train, y_train)
+
+# anova_filter = SelectKBest(chi2 , k=10000)
+#
+#clf = Pipeline([
+#  ('SCV', LinearSVC(penalty="l2",C=0.5)),
+#  ('lg', LogisticRegression(C = 0.1) ) ])
+#  
+clf.fit(X_train, y_train)
+
+print "Predicting."
+y_pred = clf.predict(Xval)
+
+acc = sum(y_pred==yval)/len(yval)
+print "Accuracy: %f" % acc
 

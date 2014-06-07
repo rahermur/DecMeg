@@ -3,6 +3,7 @@ function [features] = createFeatures(XX,tmin, tmax, sfreq,tmin_original)
 %- restricting the time window of MEG data to [tmin, tmax]sec.
 %- Concatenating the 306 timeseries of each trial in one long vector.
 %- Normalizing each feature independently (z-scoring).
+
 disp('Applying the desired time window.')
 beginning = (tmin - tmin_original) * sfreq+1;
 e = (tmax - tmin_original) * sfreq;
@@ -14,14 +15,8 @@ for i = 1 : size(XX,1)
     features(i,:) = temp(:); 
 end
 disp('Features Normalization.');
-
-coeffs = ones(1,3)/3;
-
 for i = 1 : size(features,2)
-    features(:,i) = filter(coeffs, 1, features(:,i));
     features(:,i) = features(:,i)-mean(features(:,i));
     features(:,i) = features(:,i)./std(features(:,i));
 end
-
-
 end

@@ -121,7 +121,18 @@ if __name__ == '__main__':
 #    print
 #    clf = SVC(C=1, kernel="linear",random_state=0) # Beware! You need 10Gb RAM to train LogisticRegression on all 16 subjects!
 #   clf = GradientBoostingClassifier(loss='deviance',learning_rate=0.1, n_estimators=10, subsample=1.0, min_samples_split=2, min_samples_leaf=1, max_depth=3, init=None, random_state=None, max_features=None, verbose=0)
+<<<<<<< HEAD:python/python_pooling_val.py
 clf = LogisticRegression(C=1,random_state=0)  
+=======
+    clf = LogisticRegression(C=3,random_state=0)  
+    
+    print "Classifier:"
+    print clf
+    print "Training."
+    clf.fit(X_train, y_train)
+    print "Predicting."
+    y_pred = clf.predict(Xval)
+>>>>>>> 662d0005eee57bf57cd8e8a2c5f0503c9cfa5592:python_pooling_val.py
     
 #    print "Classifier:"
 #    print clf
